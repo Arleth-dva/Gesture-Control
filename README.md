@@ -2,6 +2,11 @@
 
 GestureControl es una aplicación web multiplataforma que permite **controlar acciones mediante gestos de la mano usando solo la cámara**, funcionando directamente desde el navegador sin instalar software adicional.
 
+## Prueba 
+
+https://github.com/user-attachments/assets/f1245929-da58-4a97-8524-be729f529999
+
+
 El sistema detecta en tiempo real tres gestos principales:
 - ✋ Mano abierta  
 - ✊ Puño  
@@ -42,7 +47,6 @@ Cámara → MediaPipe/TensorFlow → Extracción de 21 Keypoints → Análisis g
 - Alejandra Marilú Verde Medina
 
 
-https://github.com/user-attachments/assets/f1245929-da58-4a97-8524-be729f529999
 
 
 
