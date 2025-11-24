@@ -135,13 +135,79 @@ src/
 
 ---
 
-# Ejecución
+## ▶️ Cómo Ejecutarlo
 
-1. Servir el proyecto desde un servidor local (HTTP).
-2. Abrir `index.html`.
-3. Aceptar acceso a la cámara.
-4. Colocar la mano frente al dispositivo.
-5. El sistema procesará los keypoints y clasificará el gesto en tiempo real.
+El proyecto puede ejecutarse en **laptop/PC** y en **teléfono móvil**.  
+Debido al uso de la cámara y funciones PWA, **debe abrirse desde un servidor local** (no con doble clic).
+
+---
+
+### 💻 Ejecución en Laptop / PC
+
+#### **Requisitos**
+- Navegador moderno (Chrome recomendado)
+- Acceso a cámara
+- Servidor local como:
+  - Python: `python -m http.server 8000`
+  - Node.js: `npx http-server`
+  - VS Code + Live Server
+  - Cualquier servidor HTTP similar
+
+#### **Pasos**
+1. Abrir una terminal en la carpeta raíz del proyecto.
+2. Ejecutar un servidor, por ejemplo:
+
+   ```bash
+   python -m http.server 8000
+   ```
+
+3. Abrir en el navegador:
+
+   ```
+   http://localhost:8000/src/index.html
+   ```
+
+4. Conceder permisos de cámara.
+5. Colocar la mano frente a la cámara para comenzar la detección.
+
+---
+
+### 📱 Ejecución en Teléfono Móvil
+
+#### **Requisitos**
+- Teléfono conectado a la misma red WiFi que la laptop
+- Navegador móvil actualizado
+- Permiso de cámara habilitado
+
+#### **Opción A: Usar el servidor de tu laptop**
+1. Obtener la IP local de la laptop (ejemplo):
+
+   ```
+   192.168.0.12
+   ```
+
+2. En el navegador del teléfono abrir:
+
+   ```
+   http://192.168.0.12:8000/src/index.html
+   ```
+
+3. Aceptar permisos de cámara.
+
+---
+
+#### **Opción B: Instalar la App como PWA**
+1. Abrir el proyecto desde el navegador del móvil.
+2. Abrir el menú (tres puntos).
+3. Seleccionar: **"Agregar a la pantalla de inicio"**.
+4. La aplicación se instalará como **PWA** y podrá ejecutarse a pantalla completa.
+
+---
+
+### 📝 Notas Importantes
+- No funciona abriendo `index.html` directamente desde el explorador de archivos.
+- Algunos navegadores móviles bloquean la cámara en modo incógnito.
+- Una buena iluminación mejora significativamente la detección.
 
 ---
 
