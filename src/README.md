@@ -15,16 +15,18 @@ Es el **source code** principal de la aplicación.
 
 ## Contenido
 
+```
 src/
 │
-├── index.html # Documento raíz y estructura principal
-├── style.css # Estilos y layout visual
-├── app.js # Entry point del sistema
-├── app_module.js # Motor de visión y renderizado
-├── classify.js # Clasificador de gestos (reglas geométricas)
-├── logger.js # Logging y diagnóstico
-├── manifest.json # Configuración PWA
-└── sw.js # Service Worker (offline + caché)
+├── index.html        # Documento raíz y estructura principal
+├── style.css         # Estilos y layout visual
+├── app.js            # Entry point del sistema
+├── app_module.js     # Motor de visión y renderizado
+├── classify.js       # Clasificador de gestos (reglas geométricas)
+├── logger.js         # Logging y diagnóstico
+├── manifest.json     # Configuración PWA
+└── sw.js             # Service Worker (offline + caché)
+```
 
 ---
 
