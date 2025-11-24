@@ -1,0 +1,79 @@
+Integración del sistema de Gesture Control — Día 3 Proyecto GestureControl
+Proyecto: GestureControl — Control por gestos con cámara y ML (MediaPipe /
+TensorFlow.js)
+
+1. Revisión inicial del proyecto
+● Analicé la estructura del proyecto GestureControl y los archivos incluidos en la
+carpeta web/.
+● Detecté problemas en la carga de dependencias y en la integración del modelo de
+MediaPipe Hands.
+● Revisé el estado de index.html, app_module.js, classify.js y logger.js.
+2. Diagnóstico de errores en la detección
+Durante las primeras pruebas la cámara funcionaba, pero el detector de manos producía
+keypoints con valores NaN.
+El análisis reveló:
+● El <video id="video"> estaba con display:none, lo cual impedía que WebGL
+y el modelo leyeran correctamente los frames.
+● hand-pose-detection no se estaba cargando correctamente mediante CDN.
+● El detector creado con runtime: "tfjs" no podía cargar el modelo de landmarks
+y solo hacía detección de palma.
+3. Debug manual desde la consola de Chrome
+Fui ejecutando múltiples pruebas:
+● Confirmación de resolución del video (videoWidth, videoHeight).
+● Tests de srcObject, readyState, reproducción de video y existencia de frames.
+● Verificación de si window.handPoseDetection estaba o no disponible.
+● Inspección de los primeros resultados de estimateHands.
+Esto permitió aislar la causa final:
+➡️ El detector sí detectaba una mano, pero el modelo de landmarks no cargaba
+correctamente.
+4. Solución aplicada al detector
+Probé dos enfoques:
+1. runtime: "tfjs"
+→ No funcionaba (keypoints = NaN)
+2. runtime: "mediapipe"
+→ Funcionó inmediatamente
+→ Keypoints completos, reales y válidos
+Los keypoints comenzaron a generarse como coordenadas reales en px, confirmando que
+la detección de mano estaba funcionando correctamente.
+5. Solución aplicada al video
+Para evitar el display:none (que rompe WebGL), apliqué:
+● Estilización del <video> fuera de pantalla (position:absolute;
+left:-9999px;)
+● Mantenerlo renderizable sin ser visible en UI
+Esto arregló el problema permanentemente.
+6. Implementación final del código
+Reescribí por completo:
+● index.html
+● app_module.js
+● classify.js
+● logger.js
+Los cambios incluyeron:
+● Inicialización correcta del detector con runtime: "mediapipe"
+● Cálculo de gestos por heurísticas normalizadas
+● Dibujo del esqueleto de la mano sobre canvas
+● Ventana de votación para hacer los gestos más estables
+● Exportación de logs (gesture_logs.json)
+● Sistema de UI mejorado y organizado
+● Mayor robustez en la inicialización de la cámara
+● Manejo limpio de errores y mensajes en la consola
+7. Confirmación del funcionamiento
+Se verificó:
+● Cámara recibiendo frames (640×480)
+● Detector corriendo en WebGL 2.0
+● Landmarks funcionando
+● Keypoints numéricos (0–640 px, 0–480 px)
+● Gesto detectado correctamente con confianza
+● Sistema listo para clasificar:
+○ Puño
+○ Mano abierta
+○ Apuntar
+○ Desconocido
+Resultado
+El sistema GestureControl ya:
+● Detecta la mano correctamente
+● Produce 21 keypoints estables
+● Clasifica gestos en tiempo real
+● Dibuja el esqueleto sobre el canvas
+● Registra eventos con timestamp
+● Funciona con UI limpia
+● Está listo para entrega, presentación o integración con otras acciones
