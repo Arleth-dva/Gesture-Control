@@ -36,10 +36,10 @@ Cámara → MediaPipe/TensorFlow → Extracción de 21 Keypoints → Análisis g
 ---
 
 # Proyecto Elaborado por:
-Brayan Alexander Rangel Trejo
-Arleth Sarahí Elvira Guerrero
-Diego Ángel Romero Guerra
-Alejandra Marilú Verde Medina
+- Brayan Alexander Rangel Trejo
+- Arleth Sarahí Elvira Guerrero
+- Diego Ángel Romero Guerra
+- Alejandra Marilú Verde Medina
 
 
 
