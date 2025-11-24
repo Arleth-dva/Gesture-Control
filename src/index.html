@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GestureControl — Demo</title>
+
+  <!-- Dependencias: TFJS y MediaPipe (hand-pose-detection se cargará dinámicamente o vía CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/hands.js"></script>
+
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; margin: 0; background:#061022; color:#ddd; }
+    .page { max-width:1100px; margin:24px auto; display:flex; gap:24px; padding:12px; }
+    .left { flex:1; }
+    .right { width:360px; background:rgba(255,255,255,0.03); padding:18px; border-radius:8px; }
+    canvas { width:100%; height:auto; background:#000; border-radius:8px; display:block; }
+    .controls { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+    button { background:#08b; color:#fff; border:none; padding:10px 12px; border-radius:8px; cursor:pointer; }
+    .status { margin-top:10px; font-size:16px; color:#cfe; }
+    label{display:block;margin-top:10px;font-size:14px;color:#cbd5e1}
+    select,input[type=number]{width:100%;padding:6px;border-radius:6px;border:1px solid #215; background:rgba(255,255,255,0.02); color:#fff}
+  </style>
+
+  <!-- Fallback: intentar exponer hand-pose-detection si se sirve como ESM -->
+  <script>
+    (async function attachHandPoseDetection() {
+      if (window.handPoseDetection && window.handPoseDetection.createDetector) return;
+      try {
+        const mod = await import('https://unpkg.com/@tensorflow-models/hand-pose-detection');
+        const api = mod.default || mod;
+        if (api && (api.createDetector || api.SupportedModels)) {
+          window.handPoseDetection = api;
+          console.log('handPoseDetection adjuntado en window desde import ESM.');
+          return;
+        }
+        if (window.handPoseDetection && window.handPoseDetection.createDetector) return;
+      } catch (err) {
+        console.warn('Import dinámico de hand-pose-detection falló:', err);
+      }
+    })();
+  </script>
+</head>
+<body>
+  <div class="page">
+    <div class="left">
+      <h2 style="color:#fff">GestureControl</h2>
+
+      <!-- Video fuente (offscreen) -->
+      <video id="video" autoplay playsinline muted style="display:none;"></video>
+
+      <!-- Canvas visible donde se dibuja -->
+      <canvas id="output"></canvas>
+
+      <div class="status" id="statusLine">Gesto: — &nbsp;&nbsp; Confianza: — &nbsp;&nbsp; FPS: —</div>
+    </div>
+
+    <aside class="right">
+      <h3>Mapeo de gestos</h3>
+      <label>Puño →</label>
+      <select id="map_fist"><option>Play/Pause</option></select>
+      <label>Mano abierta →</label>
+      <select id="map_open"><option>Next</option></select>
+      <label>Apuntar →</label>
+      <select id="map_point"><option>Prev</option></select>
+
+      <h3>Calibración</h3>
+      <label>Ventana de suavizado (frames)</label>
+      <input id="smoothWindow" type="number" value="7" min="1" max="30" />
+      <label>Confirmación mínima (ms)</label>
+      <input id="cooldownMs" type="number" value="300" min="0" />
+
+      <div class="controls">
+        <button id="requestCameraBtn">Solicitar permiso cámara</button>
+        <button id="startBtn">Start</button>
+        <button id="stopBtn">Stop</button>
+        <button id="exportBtn">Exportar JSON</button>
+      </div>
+
+      <h3>Bitácora / Eventos</h3>
+      <div id="logPreview" style="height:140px; background:rgba(0,0,0,0.15); border-radius:6px; padding:8px; overflow:auto; font-size:13px;"></div>
+    </aside>
+  </div>
+
+  <!-- Parche temporal: permite usar window.handPoseDetection si import dinámico funcionó.
+       Carga el módulo de la app (módulo ESM) -->
+  <script type="module" src="app_module.js"></script>
+</body>
+</html>
