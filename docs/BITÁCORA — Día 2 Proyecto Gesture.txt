@@ -1,0 +1,100 @@
+BITÁCORA DE TRABAJO — Día 2 Proyecto GestureControl
+Proyecto: GestureControl — Control por gestos con cámara y ML (MediaPipe /
+TensorFlow.js)
+
+1. Revisión inicial del proyecto
+Comencé revisando la estructura completa del proyecto GestureControl. Encontré varios
+problemas importantes:
+● Algunas librerías esenciales no estaban cargando.
+● El archivo app_module.js tenía errores que impedían iniciar el detector.
+● El <canvas> tenía un ID incorrecto.
+● El manifest pedía un icono inexistente, generando error 404.
+● Las dependencias de TensorFlow y HandPoseDetection no se estaban cargando
+correctamente debido a rutas incorrectas.
+2. Organización y corrección de archivos
+Reorganicé el proyecto para que la app pudiera cargarse correctamente desde el
+navegador.
+La estructura quedó así:
+/web/
+index.html
+app_module.js
+classify.js
+logger.js
+style.css
+manifest.json
+Corregí:
+● las rutas de los scripts,
+● la vinculación entre módulos ES6,
+● el ID del canvas,
+● y el flujo de inicialización del video y el detector.
+3. Pruebas en servidor local
+Inicié el servidor local con:
+python -m http.server 8000
+Probé el acceso desde:
+http://localhost:8000/web/
+La página cargó, pero las librerías principales seguían sin inicializarse
+4. Depuración de dependencias
+Usé la consola de Chrome para verificar si las librerías habían cargado:
+window.handPoseDetection
+window.tf
+El resultado mostró:
+handPoseDetection = undefined
+tf = true
+Esto confirmaba que la librería principal de detección no estaba siendo cargada,
+bloqueando toda la app.
+5. Diagnóstico del error
+Al intentar cargar manualmente:
+https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection@0.0.7/dist/hand-posedetection.min.js
+el servidor devolvió 404 (no encontrado).
+Ese era el motivo por el cual el detector nunca se inicializaba.
+6. Solución temporal para cargar las librerías
+Implementé un snippet que inyecta directamente las dependencias en el DOM:
+(function loadDeps(){ ... })();
+Con esto, TFJS y MediaPipe Hands empezaron a cargar correctamente.
+7. Creación del detector
+Después de recargar y corregir las rutas, ejecuté nuevamente los scripts de prueba y logré
+finalmente crear el detector:
+Detector creado
+Este fue el primer momento en que el detector realmente existe y funciona dentro de la
+página.
+8. Problema: no se detectaban manos
+Aunque el detector ya estaba creado, los frames no mostraban mano.
+Los resultados eran:
+No se detecta mano en este frame
+Gesto confirmado: desconocido
+9. Inicio de calibración
+Implementé scripts avanzados para obtener mediciones reales de los puntos clave de la
+mano (keypoints):
+● tamaño de la palma,
+● distancia muñeca → punta del índice,
+● separación índices,
+● proporciones necesarias para los gestos.
+Ejecuté el snippet de diagnóstico que espera automáticamente hasta detectar una mano en
+un frame.
+La primera salida fue:
+palm(px) = NaN
+...
+lo que indicaba que en ese frame los keypoints venían vacíos (posicionamiento/iluminación).
+10. Mejora del análisis
+Actualicé el script con un sistema de polling que:
+● intenta detección cada 200ms,
+● espera hasta 8s,
+● solo procesa si realmente hay mano en pantalla.
+Con esto quedó lista la herramienta de calibración que entregaré cuando obtenga keypoints
+válidos.
+11. Estado final del día
+Al terminar la sesión conseguí:
+● La estructura del proyecto corregida y funcional.
+● El servidor local corriendo sin errores críticos.
+● Todas las dependencias cargadas correctamente.
+● El detector de manos inicializado y funcionando.
+● Snippets avanzados para:
+○ depurar,
+○ obtener keypoints reales,
+○ calibrar gestos,
+○ ajustar la función classify.js.
+Aún queda pendiente:
+● Extraer valores reales de la mano para ajustar los umbrales.
+● Terminar la función de clasificación final.
+● Probar los tres gestos:
+mano abierta, puño, apuntar.
