@@ -145,7 +145,7 @@ src/
 
 ---
 
-# 📌 Notas Técnicas
+#  Notas Técnicas
 
 - Todo ocurre **on-device**, sin enviar datos a la nube.
 - El sistema usa reglas geométricas, no un modelo entrenado.
