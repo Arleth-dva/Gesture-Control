@@ -42,5 +42,9 @@ Cámara → MediaPipe/TensorFlow → Extracción de 21 Keypoints → Análisis g
 - Alejandra Marilú Verde Medina
 
 
+https://github.com/user-attachments/assets/f1245929-da58-4a97-8524-be729f529999
+
+
+
 
 
