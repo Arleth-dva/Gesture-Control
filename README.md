@@ -1,4 +1,4 @@
-# 🎮 GestureControl – Proyecto NEXO
+# GestureControl – Proyecto NEXO
 
 GestureControl es una aplicación web multiplataforma que permite **controlar acciones mediante gestos de la mano usando solo la cámara**, funcionando directamente desde el navegador sin instalar software adicional.
 
@@ -17,7 +17,7 @@ Este proyecto forma parte del **Proyecto NEXO – ITIID – UPSRJ**, demostrando
 
 ---
 
-## 🚀 Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 - **JavaScript**
 - **HTML / CSS**
@@ -28,7 +28,7 @@ Este proyecto forma parte del **Proyecto NEXO – ITIID – UPSRJ**, demostrando
 
 ---
 
-## 🧠 ¿Cómo funciona?
+## ¿Cómo funciona?
 
 El flujo del sistema es:
 Cámara → MediaPipe/TensorFlow → Extracción de 21 Keypoints → Análisis geométrico → Detección del gesto → Ejecución de acción
