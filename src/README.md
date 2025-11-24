@@ -219,5 +219,9 @@ Debido al uso de la cámara y funciones PWA, **debe abrirse desde un servidor lo
 - `classify.js` puede ampliarse introduciendo nuevos patrones de keypoints.
 
 
+# ENCARGADO:
+Brayan Alexander Rangel Trejo
+
+
 
 
